@@ -1,0 +1,42 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+body {
+  font-family: 'Inter', sans-serif;
+  touch-action: manipulation;
+}
+.ui-container {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2rem 1rem;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, transparent 30%, transparent 70%, rgba(0,0,0,0.7) 100%);
+  pointer-events: none;
+}
+.ui-header, .ui-footer {
+  width: 100%;
+  max-width: 450px;
+  text-align: center;
+  pointer-events: auto;
+}
+.ui-header h1 {
+  cursor: pointer;
+}
+.stamp {
+  transition: all 0.3s ease-in-out;
+}
+.stamp.collected {
+  transform: scale(1.1);
+  filter: none;
+}
+.a-loader-title {
+  display: none !important;
+}

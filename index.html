@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Icon Hunter - Image Recognition</title>
+
+  <!-- A-Frame & MindAR -->
+  <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.5/dist/mindar-image-aframe.prod.js"></script>
+  
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- === Layar Login === -->
+  <div id="login-screen" class="fixed inset-0 bg-gray-900 flex items-center justify-center z-50 p-4">
+    <div class="bg-white rounded-2xl p-8 text-center text-gray-800 shadow-2xl w-full max-w-sm">
+      <h2 class="text-3xl font-bold mb-4 text-indigo-600">Icon Hunter</h2>
+      <p class="mb-6 text-gray-600">Masukkan Nama atau ID Peserta untuk memulai perburuan!</p>
+      <input id="participant-id-input" type="text" placeholder="Contoh: Tim Hebat / 007" class="w-full border-2 border-gray-300 rounded-lg p-3 mb-4 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 outline-none">
+      <button id="start-button" class="w-full bg-indigo-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 transition-transform transform hover:scale-105">
+        Mulai Berburu
+      </button>
+    </div>
+  </div>
+
+  <!-- === Kontainer Game === -->
+  <div id="game-container" class="hidden">
+    <div class="ui-container">
+      <div class="ui-header">
+        <h1 class="text-4xl font-bold mb-2 text-white" style="text-shadow: 2px 2px 4px #000;">Icon Hunter</h1>
+        <p id="scan-status" class="text-gray-200" style="text-shadow: 1px 1px 2px #000;">Arahkan kamera ke salah satu Ikon Target.</p>
+      </div>
+      <div class="ui-footer">
+        <div id="stamps-container" class="flex justify-center items-center gap-3"></div>
+      </div>
+    </div>
+
+    <!-- Pop-up -->
+    <div id="popup" class="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center hidden z-50 p-4">
+      <div class="bg-white rounded-2xl p-6 text-center text-gray-800 shadow-2xl transform transition-all scale-95 max-w-sm w-full">
+        <h2 id="popup-title" class="text-2xl font-bold mb-2 text-indigo-600">Berhasil!</h2>
+        <p class="mb-4">Kamu menemukan Ikon:</p>
+        <img id="popup-img" src="" alt="Collected Icon" class="w-48 h-48 mx-auto rounded-lg object-cover mb-6 shadow-md" onerror="this.src='https://placehold.co/192x192/e0e0e0/333?text=Error'">
+        <button onclick="closePopup()" class="w-full bg-indigo-600 text-white font-bold py-3 px-4 rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 transition-transform transform hover:scale-105">
+          Lanjutkan Berburu!
+        </button>
+      </div>
+    </div>
+
+    <!-- Pesan Kemenangan -->
+    <div id="win-message" class="fixed inset-0 bg-gradient-to-br from-indigo-500 to-purple-600 flex-col items-center justify-center hidden z-50 p-4 text-center">
+      <div class="transform transition-all scale-95">
+        <h2 class="text-5xl md:text-6xl font-extrabold text-white mb-4" style="text-shadow: 2px 2px 4px #000;">SELAMAT!</h2>
+        <p class="text-xl md:text-2xl text-white mb-8">Kamu berhasil mengumpulkan semua ikon!</p>
+        <p id="firebase-status" class="text-lg text-yellow-300">Mengirim data kemenangan...</p>
+        <div id="win-stamps-container" class="flex justify-center items-center gap-4 mt-8"></div>
+      </div>
+    </div>
+    
+    <!-- Scene A-Frame -->
+    <a-scene color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
+      <a-assets></a-assets>
+      <a-camera position="0 0 0" look-controls="enabled: false"></a-camera>
+      <a-entity id="target-0" mindar-image-target="targetIndex: 0"></a-entity>
+      <a-entity id="target-1" mindar-image-target="targetIndex: 1"></a-entity>
+      <a-entity id="target-2" mindar-image-target="targetIndex: 2"></a-entity>
+      <a-entity id="target-3" mindar-image-target="targetIndex: 3"></a-entity>
+      <a-entity id="target-4" mindar-image-target="targetIndex: 4"></a-entity>
+    </a-scene>
+  </div>
+
+  <!-- Firebase SDK -->
+  <script type="module" src="script.js"></script>
+</body>
+</html>
