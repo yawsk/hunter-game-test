@@ -99,11 +99,11 @@ document.addEventListener('DOMContentLoaded', () => {
       sceneEl.appendChild(entity);
     });
 
-    // 🎥 kamera jalan kalau AR siap
+    // 🎥 Hybrid kamera start
     sceneEl.addEventListener("arReady", () => {
       const arSystem = sceneEl.systems["mindar-image-system"];
       if (arSystem) {
-        console.log("✅ Kamera siap, nyalain...");
+        console.log("✅ Kamera siap (arReady), nyalain...");
         arSystem.start();
       }
     });
@@ -113,7 +113,18 @@ document.addEventListener('DOMContentLoaded', () => {
       alert("Kamera gagal nyala. Cek permission browser atau coba Chrome/Edge.");
     });
 
-    // state game
+    // fallback manual kalau arReady ga kepanggil
+    setTimeout(() => {
+      const arSystem = sceneEl.systems["mindar-image-system"];
+      if (arSystem && !arSystem.active) {
+        console.log("⚠️ Fallback: start kamera manual");
+        arSystem.start();
+      }
+    }, 2000);
+
+    // ==========================
+    // State game
+    // ==========================
     const collectedIcons = new Set();
     const stampsContainer = document.getElementById('stamps-container');
     const popup = document.getElementById('popup');
